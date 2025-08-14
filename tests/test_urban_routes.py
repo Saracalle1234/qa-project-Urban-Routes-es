@@ -13,7 +13,6 @@ import os
 class TestUrbanRoutes:
 
     driver = None
-    routes_page = None
 
     @classmethod
     def setup_class(cls):
@@ -48,8 +47,15 @@ class TestUrbanRoutes:
     def test_set_sms(self):
         self.routes_page.set_sms_code()
 
-    def test_confirmar(self):
-        self.routes_page.click_on_confirmar_button()
+    def test_pago(self):
+        self.routes_page.click_on_pago_button()
+
+    def test_tarjeta(self):
+        self.routes_page.click_on_tarjeta_button()
+
+    def test_set_card(self):
+        self.routes_page.click_card(data.card_number)
+        self.routes_page.add_cvv_card(data.card_code)
 
 
     @classmethod
