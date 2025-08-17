@@ -1,15 +1,16 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from utils.retrieve_code import retrieve_phone_code
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import Keys
+from selenium.common.exceptions import TimeoutException
 
 
-
-class UrbanRoutesPage:
+class urban_routes_page:
     def __init__(self , driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver , 10)
+        self.wait = WebDriverWait(driver , 20)
         self.from_field = (By.ID, "from")
         self.to_field = (By.ID, "to")
         self.flash_button=(By.XPATH, "//div[@class='mode active' and text()='Flash']")
@@ -22,10 +23,10 @@ class UrbanRoutesPage:
         self.confirmar_button = (By.XPATH , "//button[contains(@class, 'full') and text()='Confirmar']")
         self.pago_button = (By.XPATH , "//div[@class='pp-text' and text()='Método de pago']")
         self.tarjeta_button = (By.XPATH , "//div[@class='pp-title' and text()='Agregar tarjeta']")
-        self.cvv_field = (By.ID, "code")
-        self.card_number_field = (By.ID, "number")
-
-
+        self.card_number_field = (By.ID , 'number')
+        self.cvv_field = (By.NAME, "code")
+        self.add_card_button = (By.CSS_SELECTOR, "button.button.full[type='submit']")
+        self.submit_button = driver.find_element(By.XPATH, "//button[@type='submit' and contains(@class, 'button') and contains(@class, 'full')]")
 
     def set_from(self, from_address):
        # self.driver.find_element(*self.from_field).send_keys(from_address)
@@ -110,26 +111,18 @@ class UrbanRoutesPage:
     def click_on_tarjeta_button(self):
         self.get_tarjeta_button().click()
 
-    def click_card(self, card_number):
-        self.driver.implicitly_wait(20)
-        self.driver.find_element(*self.card_number_field).click()
-        self.driver.find_element(*self.card_number_field).send_keys(card_number)
+    def fill_card_number(self , card_number, card_code):
+        try:
+            element = WebDriverWait(self.driver , 10).until(
+                EC.presence_of_element_located((By.ID , "code"))
+            )
+            print("Elemento 'code' encontrado en el DOM")
+        except TimeoutException:
+            print("Elemento 'code' NO encontrado en el DOM")
 
-    def add_cvv_card(self, cvv):
-        WebDriverWait(self.driver , 10).until(EC.invisibility_of_element_located((By.ID , "loader")))
-        self.driver.find_element(*self.cvv_field).click()
-        self.driver.find_element(*self.cvv_field).send_keys(cvv + Keys.TAB)
+    def get_submit_button(self):
+        return self.wait.until(EC.element_to_be_clickable(self.submit_button))
 
-
-
-
-
-
-
-
-
-
-
-
-
+    def click_on_submit_button(self):
+        self.get_submit_button().click()
 
