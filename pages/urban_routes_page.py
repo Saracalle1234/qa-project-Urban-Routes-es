@@ -27,7 +27,7 @@ class urban_routes_page:
         self.pago_button = (By.XPATH , "//div[@class='pp-text' and text()='Método de pago']")
         self.tarjeta_button = (By.XPATH , "//div[@class='pp-title' and text()='Agregar tarjeta']")
         self.card_number_field = (By.ID , 'number')
-        self.cvv_field = driver.find_elements(By.CLASS_NAME, "card-input")
+        self.cvv_field = (By.CLASS_NAME, "card-input")
         self.submit_button = (By.XPATH, "//button[contains(@class, 'button full') and text()='Add']")
 
     def set_from(self, from_address):
@@ -118,7 +118,7 @@ class urban_routes_page:
         self.driver.find_element(*self.card_number_field).click()
         WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable(self.card_number_field)).send_keys(card_number)
 
-    def cvv_field(self, card_code):
+    def fill_cvv_field(self, card_code):
         self.driver.implicitly_wait(20)
         self.driver.find_element(*self.cvv_field).click()
         WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable(self.cvv_field)).send_keys(card_code)

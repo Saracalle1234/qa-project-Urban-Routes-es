@@ -54,7 +54,7 @@ class Test_Urban_Routes:
 
     def test_set_card(self):
         self.routes_page.click_card(data.card_number)
-        self.routes_page.click_card(data.card_code)
+        self.routes_page.fill_cvv_field(data.card_code)
 
     @classmethod
     def teardown_class(cls):
