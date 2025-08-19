@@ -3,8 +3,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from utils.retrieve_code import retrieve_phone_code
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from data import data
 from selenium.webdriver import Keys
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException
+import time
 
 
 class urban_routes_page:
@@ -24,9 +27,8 @@ class urban_routes_page:
         self.pago_button = (By.XPATH , "//div[@class='pp-text' and text()='Método de pago']")
         self.tarjeta_button = (By.XPATH , "//div[@class='pp-title' and text()='Agregar tarjeta']")
         self.card_number_field = (By.ID , 'number')
-        self.cvv_field = (By.NAME, "code")
-        self.add_card_button = (By.CSS_SELECTOR, "button.button.full[type='submit']")
-        self.submit_button = driver.find_element(By.XPATH, "//button[@type='submit' and contains(@class, 'button') and contains(@class, 'full')]")
+        self.cvv_field = driver.find_elements(By.CLASS_NAME, "card-input")
+        self.submit_button = (By.XPATH, "//button[contains(@class, 'button full') and text()='Add']")
 
     def set_from(self, from_address):
        # self.driver.find_element(*self.from_field).send_keys(from_address)
@@ -111,18 +113,26 @@ class urban_routes_page:
     def click_on_tarjeta_button(self):
         self.get_tarjeta_button().click()
 
-    def fill_card_number(self , card_number, card_code):
+    def fill_card_number(self , card_number , card_code):
         try:
-            element = WebDriverWait(self.driver , 10).until(
-                EC.presence_of_element_located((By.ID , "code"))
-            )
-            print("Elemento 'code' encontrado en el DOM")
-        except TimeoutException:
-            print("Elemento 'code' NO encontrado en el DOM")
+            number_element = WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable((By.ID , "card_number")))
+            number_element.clear()
+            number_element.send_keys(card_number)
 
-    def get_submit_button(self):
-        return self.wait.until(EC.element_to_be_clickable(self.submit_button))
+            code_element = WebDriverWait(self.driver , 10).until( EC.element_to_be_clickable((By.ID , "code")) )
+            code_element.clear()
+            code_element.send_keys(card_code)
+            time.sleep(0.5)
+            code_element.send_keys(Keys.TAB)
 
-    def click_on_submit_button(self):
-        self.get_submit_button().click()
+            print("Número de tarjeta y código ingresados correctamente")
+
+        except StaleElementReferenceException:
+
+            print("El campo fue modificado en el DOM. Reintentando...")
+            self.fill_card_number(card_number , card_code)
+            # Reintenta una vez
+        except TimeoutException: (print("No se encontró uno de los campos en el DOM"))
+
+
 

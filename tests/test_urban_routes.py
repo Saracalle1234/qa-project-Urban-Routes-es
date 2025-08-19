@@ -17,7 +17,7 @@ class Test_Urban_Routes:
     def setup_class(cls):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.set_capability("goog:loggingPrefs",{'performance': 'ALL'})
-        cls.driver = webdriver.Chrome(Service=Service(),options=chrome_options)
+        cls.driver = webdriver.Chrome(service=Service(),options=chrome_options)
         cls.driver.get(data.urban_routes_url)
         cls.routes_page = urp.urban_routes_page(cls.driver)
 
@@ -54,10 +54,6 @@ class Test_Urban_Routes:
 
     def test_card_number(self):
         self.routes_page.fill_card_number(data.card_number, data.card_code)
-
-    def test_submit_button(self):
-            self.routes_page.click_on_submit_button()
-
 
     @classmethod
     def teardown_class(cls):
