@@ -113,26 +113,16 @@ class urban_routes_page:
     def click_on_tarjeta_button(self):
         self.get_tarjeta_button().click()
 
-    def fill_card_number(self , card_number , card_code):
-        try:
-            number_element = WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable((By.ID , "card_number")))
-            number_element.clear()
-            number_element.send_keys(card_number)
+    def click_card(self, card_number):
+        self.driver.implicitly_wait(20)
+        self.driver.find_element(*self.card_number_field).click()
+        WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable(self.card_number_field)).send_keys(card_number)
 
-            code_element = WebDriverWait(self.driver , 10).until( EC.element_to_be_clickable((By.ID , "code")) )
-            code_element.clear()
-            code_element.send_keys(card_code)
-            time.sleep(0.5)
-            code_element.send_keys(Keys.TAB)
+    def cvv_field(self, card_code):
+        self.driver.implicitly_wait(20)
+        self.driver.find_element(*self.cvv_field).click()
+        WebDriverWait(self.driver , 10).until(EC.element_to_be_clickable(self.cvv_field)).send_keys(card_code)
 
-            print("Número de tarjeta y código ingresados correctamente")
-
-        except StaleElementReferenceException:
-
-            print("El campo fue modificado en el DOM. Reintentando...")
-            self.fill_card_number(card_number , card_code)
-            # Reintenta una vez
-        except TimeoutException: (print("No se encontró uno de los campos en el DOM"))
 
 
 

@@ -52,8 +52,9 @@ class Test_Urban_Routes:
     def test_tarjeta(self):
         self.routes_page.click_on_tarjeta_button()
 
-    def test_card_number(self):
-        self.routes_page.fill_card_number(data.card_number, data.card_code)
+    def test_set_card(self):
+        self.routes_page.click_card(data.card_number)
+        self.routes_page.click_card(data.card_code)
 
     @classmethod
     def teardown_class(cls):
