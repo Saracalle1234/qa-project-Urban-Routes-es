@@ -1,40 +1,28 @@
-Urban Routes - Pruebas Automatizadas
+Urban Routes – Automatización de pruebas UI
 
-Que es este proyecto?
-Este proyecto automatiza pruebas en la app web Urban Routes, que sirve para pedir transporte. Las pruebas se hicieron con Selenium WebDriver y Pytest
+📌 Descripción del proyecto
+Urban Routes es una aplicación web que permite a los usuarios solicitar transporte urbano de manera rápida y sencilla. Este proyecto se enfoca en automatizar pruebas de interfaz gráfica (UI) para validar el correcto funcionamiento del flujo de solicitud de viaje.
 
-Que pruebas hace?
-El script automatiza los siguientes pasos:
--Selecciona direccion de origen y destino
--Elige la tarifa Comfort
--Ingresa numero de telefono
--Introduce el codigo SMS
--Agrega tarjeta de credito
--Escribe un mensaje para el conductor
--Pide mata y panuelo
--Ordena dos helados
--Confirma el viaje
--Espera que aparezca la informacion del conducto
+🧩 Problema que resuelve
+La automatización de pruebas UI permite detectar errores visuales y funcionales en etapas tempranas del desarrollo, reduciendo el tiempo de validación manual y asegurando una experiencia de usuario consistente.
 
-Estructura del proyecto
-qa-project-urban-routes-es/
--data.py # Datos como URL, telefono, tarjeta
--urban_routes_page.py # Funciones y selectorees de la app
--test_urban_routes.py # Pruegas automatizadas con pytest
--retrieve_code
--README.md # Descripcion del proyecto
+🛠️ Tecnologías utilizadas
+Python - Selenium WebDriver - Pytest - ChromeDriver - PyCharm
 
-Requisitos
--Python 3.9 o superior
--Google Chrome
--ChromeDriver
+▶️ Cómo ejecutar el proyecto
 
-Como ejecutar las pruebas
--En archivo test_urban_router.py, current file, dar click en RUN
--PyChar ejecutara todas las pruebas y mostrara los resulatados en la consola inferior
-Importante: Actualizar la URL. en data.py con el que da Tripleten para que pueda funcionar la prueba
+Clona el repositorio:
+git clone https://github.com/Saracalle1234/qa-project-Urban-Routes-es.git
 
-Herramientas usadas
--Pycharm
+Crea y activa un entorno virtual:
+python -m venv venv  
+source venv/bin/activate  # En Linux/Mac  
+venv\Scripts\activate      # En Windows
+
+Instala las dependencias:
+pip install -r requirements.txt
+
+Ejecuta las pruebas:
+pytest test_urban_routes.py
 -Selenim WebDriver
 -Pytest
